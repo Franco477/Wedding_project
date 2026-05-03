@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Invitacion – Sobre</title>
 <style>
 body {
@@ -19,10 +19,13 @@ body {
 
 .container {
   position: relative;
-  width: 360px;
-  height: 240px;
+  width: min(90vw, 360px);
+  aspect-ratio: 3 / 2;
   perspective: 1200px;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .container:hover .envelope-group {
   transform: translateY(-4px);
@@ -57,9 +60,9 @@ body {
   left: 0;
   width: 0;
   height: 0;
-  border-left: 180px solid transparent;
-  border-right: 180px solid transparent;
-  border-bottom: 120px solid #f7f7f7;
+  border-left: min(180px, 50vw) solid transparent;
+  border-right: min(180px, 50vw) solid transparent;
+  border-bottom: min(120px, 25vw) solid #f7f7f7;
   filter: drop-shadow(0 -2px 2px rgba(0,0,0,0.05));
 }
 
@@ -80,9 +83,9 @@ body {
   position: absolute;
   width: 0;
   height: 0;
-  border-left: 180px solid transparent;
-  border-right: 180px solid transparent;
-  border-top: 120px solid #f0f0f0;
+  border-left: min(180px, 50vw) solid transparent;
+  border-right: min(180px, 50vw) solid transparent;
+  border-top: min(120px, 25vw) solid #f0f0f0;
   top: 0;
   transform-origin: top;
   transition: transform 2s ease-in-out, opacity 0.5s ease;
@@ -95,10 +98,10 @@ body {
 .flap::after {
   content: "";
   position: absolute;
-  top: -120px;
-  left: -180px;
-  width: 360px;
-  height: 120px;
+  top: calc(-1 * min(120px, 25vw));
+  left: calc(-1 * min(180px, 50vw));
+  width: calc(2 * min(180px, 50vw));
+  height: min(120px, 25vw);
   background: linear-gradient(to bottom, rgba(0,0,0,0.15), transparent);
   opacity: 0.25;
 }
@@ -111,14 +114,16 @@ body {
   bottom: 24px;
   color: #444;
   font-weight: 600;
-  font-size: 18px;
+  font-size: clamp(14px, 2.5vw, 18px);
   letter-spacing: 1px;
 }
 
 /* Invitación */
 .card {
   position: absolute;
-  width: 330px;
+  width: min(90vw, 330px);
+  max-width: 90%;
+  height: auto;
   left: 50%;
   top: 50%;
   transform: translate(-50%, 100%) rotateX(10deg);
@@ -157,7 +162,7 @@ body {
 
 /* Invitación centrada al final */
 .final .card {
-  transform: translate(-50%, -50%) scale(1.05);
+  transform: translate(-50%, -50%) scale(1);
   top: 50%;
 }
 </style>
