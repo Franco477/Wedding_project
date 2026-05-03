@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Invitacion – Sobre</title>
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  font-family: Arial;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background: #ffffff;
+  background-image: radial-gradient(rgba(0,0,0,0.03) 1px, transparent 1px);
+  background-size: 4px 4px;
+}
+
+.container {
+  position: relative;
+  width: 360px;
+  height: 240px;
+  perspective: 1200px;
+  cursor: pointer;
+}
+.container:hover .envelope-group {
+  transform: translateY(-4px);
+}
+
+/* Grupo del sobre completo */
+.envelope-group {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transition: transform 5s ease-in-out, opacity 0.8s ease;
+  z-index: 2;
+}
+
+.envelope {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  border-radius: 8px;
+  background: linear-gradient(145deg, #ffffff, #f1f1f1);
+  box-shadow:
+    0 10px 25px rgba(0,0,0,0.15),
+    inset 0 1px 0 rgba(255,255,255,0.6);
+  border: 1px solid #e5e5e5;
+  overflow: hidden;
+}
+
+.envelope::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 180px solid transparent;
+  border-right: 180px solid transparent;
+  border-bottom: 120px solid #f7f7f7;
+  filter: drop-shadow(0 -2px 2px rgba(0,0,0,0.05));
+}
+
+.envelope::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(135deg, transparent 49%, #ececec 50%) left,
+    linear-gradient(-135deg, transparent 49%, #ececec 50%) right;
+  background-size: 50% 100%;
+  background-repeat: no-repeat;
+  opacity: 0.6;
+}
+
+/* Tapa del sobre */
+.flap {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 180px solid transparent;
+  border-right: 180px solid transparent;
+  border-top: 120px solid #f0f0f0;
+  top: 0;
+  transform-origin: top;
+  transition: transform 2s ease-in-out, opacity 0.5s ease;
+  z-index: 3;
+
+  /* realistic shading */
+  filter: drop-shadow(0 6px 6px rgba(0,0,0,0.15));
+}
+
+.flap::after {
+  content: "";
+  position: absolute;
+  top: -120px;
+  left: -180px;
+  width: 360px;
+  height: 120px;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.15), transparent);
+  opacity: 0.25;
+}
+
+/* Nombre del invitado */
+.name {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  bottom: 24px;
+  color: #444;
+  font-weight: 600;
+  font-size: 18px;
+  letter-spacing: 1px;
+}
+
+/* Invitación */
+.card {
+  position: absolute;
+  width: 330px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, 100%) rotateX(10deg);
+  opacity: 0;
+  transition: transform 5s cubic-bezier(0.34,1.56,0.64,1), opacity 1s ease;
+  z-index: 5;
+  border-radius: 6px;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+  
+}
+
+/* 1. Abrir tapa lentamente (2s) */
+.open .flap {
+  transform: rotateX(-160deg);
+}
+
+/* 2. Emerger invitación suavemente (5s) mientras sobre baja */
+.emerge .card {
+  opacity: 1;
+  transform: translate(-50%, -140px) rotateX(0deg) scale(1.02);
+}
+
+.emerge .flap {
+  opacity: 0;
+}
+
+/* Sobre baja suavemente mientras invitación emerge */
+.emerge .envelope-group {
+  transform: translateY(60px); /* baja lentamente */
+}
+
+/* 3. Sobre desaparece al final */
+.hide-envelope .envelope-group {
+  opacity: 0;
+}
+
+/* Invitación centrada al final */
+.final .card {
+  transform: translate(-50%, -50%) scale(1.05);
+  top: 50%;
+}
+</style>
+</head>
+<body>
+
+<div class="container" onclick="openEnvelope(this)">
+  <div class="envelope-group">
+    <div class="flap"></div>
+    <div class="envelope">
+      <div class="name">Para {{ name }}</div>
+    </div>
+  </div>
+  <img src="/static/invite.png" class="card" />
+</div>
+
+<script>
+function openEnvelope(el) {
+  // 1. Abrir tapa lentamente (2s)
+  el.classList.add("open");
+
+  // 2. Después de 2s, invitación empieza a emerger suavemente durante 5s
+  setTimeout(() => {
+    el.classList.add("emerge");
+  }, 2000);
+
+  // 3. Después de 7s (2s abrir + 5s emerger), ocultar sobre completamente
+  setTimeout(() => {
+    el.classList.add("hide-envelope");
+  }, 7000);
+
+  // 4. Después de 7.5s, centrar invitación
+  setTimeout(() => {
+    el.classList.add("final");
+  }, 7500);
+}
+</script>
+
+</body>
+</html>
